@@ -2,7 +2,7 @@
 
 .layout>div:first-child:not(.recent-posts) {
     /* 以下代表白色透明度为0.3 */
-    background: rgba(255, 255, 255, .7);
+    background: rgba(255, 255, 255, .8);
 }
 
 
@@ -14,5 +14,5 @@
 .layout_post>#post,
 .read-mode .layout_post>#post {
     /* 以下代表白色透明度为0.3 */
-    background: rgba(255, 255, 255, .5);
+    background: rgba(255, 255, 255, .6);
 }

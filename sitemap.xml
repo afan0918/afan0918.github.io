@@ -130,14 +130,14 @@
 
   
   <url>
-    <loc>https://afan0918.github.io/categories/java/</loc>
+    <loc>https://afan0918.github.io/categories/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92/</loc>
     <lastmod>2022-05-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://afan0918.github.io/categories/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92/</loc>
+    <loc>https://afan0918.github.io/categories/java/</loc>
     <lastmod>2022-05-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
