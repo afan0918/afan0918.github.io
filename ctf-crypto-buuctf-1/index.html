@@ -1,0 +1,331 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>BUUCTF crypto 1 | Afan's blog</title><meta name="author" content="Afan Chen"><meta name="copyright" content="Afan Chen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="感覺CTF題目寫過就忘記，真的要把題解好好寫下來，之後要用到的時候直接查詢就好。記憶力有點靠不住了，然後這邊只會提供做法，盡量不提供flag，不好意思。 BUUCTF因為感覺比較油一點就來試試看。 MD5這題給出e00cf25ad42683b3df678c61f42c6bda這個字串，依據題目來看就是MD5解密。  MD5訊息摘要演算法（MD5 Message-Digest Algorithm），">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BUUCTF crypto 1">
+<meta property="og:url" content="https://afan0918.github.io/ctf-crypto-buuctf-1/index.html">
+<meta property="og:site_name" content="Afan&#39;s blog">
+<meta property="og:description" content="感覺CTF題目寫過就忘記，真的要把題解好好寫下來，之後要用到的時候直接查詢就好。記憶力有點靠不住了，然後這邊只會提供做法，盡量不提供flag，不好意思。 BUUCTF因為感覺比較油一點就來試試看。 MD5這題給出e00cf25ad42683b3df678c61f42c6bda這個字串，依據題目來看就是MD5解密。  MD5訊息摘要演算法（MD5 Message-Digest Algorithm），">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://raw.githubusercontent.com/afan0918/afan0918.github.io/main/asset/eiko.jpg">
+<meta property="article:published_time" content="2022-05-24T00:45:48.000Z">
+<meta property="article:modified_time" content="2022-05-24T15:36:37.447Z">
+<meta property="article:author" content="Afan Chen">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/afan0918/afan0918.github.io/main/asset/eiko.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://afan0918.github.io/ctf-crypto-buuctf-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'ca-pub-8282127876876574',
+  enable_page_level_ads: 'true'
+});</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查詢的內容：${query}"}},
+  translate: {"defaultEncoding":1,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '複製成功',
+    error: '複製錯誤',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'BUUCTF crypto 1',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-05-24 23:36:37'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><meta name="generator" content="Hexo 6.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">載入中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://avatars.githubusercontent.com/u/70462625?v=4" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">7</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 關於</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://raw.githubusercontent.com/afan0918/afan0918.github.io/main/asset/eiko.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Afan's blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜尋</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 關於</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">BUUCTF crypto 1</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2022-05-24T00:45:48.000Z" title="發表於 2022-05-24 08:45:48">2022-05-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2022-05-24T15:36:37.447Z" title="更新於 2022-05-24 23:36:37">2022-05-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/CTF/">CTF</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="BUUCTF crypto 1"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>感覺CTF題目寫過就忘記，真的要把題解好好寫下來，之後要用到的時候直接查詢就好。<br>記憶力有點靠不住了，然後這邊只會提供做法，盡量不提供flag，不好意思。</p>
+<h2 id="BUUCTF"><a href="#BUUCTF" class="headerlink" title="BUUCTF"></a>BUUCTF</h2><p>因為感覺比較油一點就來試試看。</p>
+<h3 id="MD5"><a href="#MD5" class="headerlink" title="MD5"></a>MD5</h3><p>這題給出e00cf25ad42683b3df678c61f42c6bda這個字串，依據題目來看就是MD5解密。</p>
+<blockquote>
+<p>MD5訊息摘要演算法（MD5 Message-Digest Algorithm），是一種被廣泛使用的密碼雜湊函式，可以產生出一個128位元（16個字元(BYTES)）的雜湊值（hash value），用於確保資訊傳輸完整一致，由美國密碼學家羅納德·李維斯特（Ronald Linn Rivest）設計。</p>
+</blockquote>
+<p>網站提供的是與資料庫內的數據進行比較並解密，畢竟不可能從hash中直接獲得明文。</p>
+<p><a target="_blank" rel="noopener" href="https://md5decrypt.net/en/">https://md5decrypt.net/en/</a></p>
+<p>輸入後即可取得flag。</p>
+<h3 id="一眼就解密"><a href="#一眼就解密" class="headerlink" title="一眼就解密"></a>一眼就解密</h3><p>題目給出的加密字串是</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ZmxhZ3tUSEVfRkxBR19PRl9USElTX1NUUklOR30=</span><br></pre></td></tr></table></figure>
+<p>看到字尾有&#x3D;可以先盲猜是base64，熟到不能再熟了。<br>decode base64 to ascii編碼之後，得到flag。</p>
+<h3 id="Url編碼"><a href="#Url編碼" class="headerlink" title="Url編碼"></a>Url編碼</h3><p>既然提示出是url編碼了，就找一個解url編碼的網站。</p>
+<p><a target="_blank" rel="noopener" href="https://www.ifreesite.com/urldecoderencoder.htm">https://www.ifreesite.com/urldecoderencoder.htm</a></p>
+<p>解碼後取得flag。</p>
+<h3 id="看我迴旋踢"><a href="#看我迴旋踢" class="headerlink" title="看我迴旋踢"></a>看我迴旋踢</h3><p>題目給出的加密字串是</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">synt&#123;5pq1004q-86n5-46q8-o720-oro5on0417r1&#125;</span><br></pre></td></tr></table></figure>
+
+<p>感覺沒什麼特別的地方，也不是hex等字串的感覺，先盲猜ROT13，然後發現解密出的字串格式是flag{….}，確定取得flag。</p>
+<h3 id="摩絲"><a href="#摩絲" class="headerlink" title="摩絲"></a>摩絲</h3><p>厲害了，直接打開維基百科查詢，對密碼對到眼睛瞎掉。<br>不過比較好的是密碼中間有用空格隔開，不然真的很噁。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.. .-.. --- ...- . -.-- --- ..-</span><br></pre></td></tr></table></figure>
+
+<p>翻譯過來是I LOVE YOU，提交還要大寫，不要臉。</p>
+<h3 id="password"><a href="#password" class="headerlink" title="password"></a>password</h3><p>原本又HxD等等軟體都打不開，想說這到底是什麼，沒想到notepad++直接打開，使用字元集GB2312來進行解碼之後可以觀看。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">姓名：张三 </span><br><span class="line">生日：19900315</span><br><span class="line"></span><br><span class="line">key格式为key&#123;xxxxxxxxxx&#125;</span><br></pre></td></tr></table></figure>
+
+<p>要填入十個數字，猜測應該是姓名加上生日，但沒想到是縮寫，厲害了羅馬拼音。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">flag&#123;zs19900315&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="變異凱撒"><a href="#變異凱撒" class="headerlink" title="變異凱撒"></a>變異凱撒</h3><p>原本以為就是ROT13的變形，結果沒想到列出所有組合都怪怪的，然後去找了一下^，確認他在ASCII裡面。</p>
+<p>然後可以看到一些規律。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a+5=f</span><br><span class="line">f+6=l</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>然後直接解碼就好，取得flag。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">caesar</span>(<span class="params">cipher</span>):</span><br><span class="line">    j = <span class="number">5</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> cipher:</span><br><span class="line">        <span class="built_in">print</span>(<span class="built_in">chr</span>(<span class="built_in">ord</span>(i) + j), end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">        j += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">caesar(<span class="string">&quot;afZ_r9VYfScOeO_UL^RWUc&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Quoted-printable"><a href="#Quoted-printable" class="headerlink" title="Quoted-printable"></a>Quoted-printable</h3><p>題目給的密文是</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">=E9=82=A3=E4=BD=A0=E4=B9=9F=E5=BE=88=E6=A3=92=E5=93=A6</span><br></pre></td></tr></table></figure>
+
+<p>先查詢Quoted-printable是什麼東西，發現維基百科的定義如下。</p>
+<blockquote>
+<p>Quoted-printable或QP encoding，沒有規範的中文譯名，可譯為可列印字元參照編碼或使用可列印字元的編碼。Quoted-printable是使用可列印的ASCII字元（如字母、數字與「&#x3D;」）表示各種編碼格式下的字元，以便能在7-bit資料通路上傳輸8-bit資料, 或者更一般地說在非8-bit clean媒體上正確處理資料。這被定義為MIME content transfer encoding，用於e-mail。</p>
+</blockquote>
+<p>以此網站進行decoder即可取得flag內容。</p>
+<p><a target="_blank" rel="noopener" href="https://www.webatic.com/quoted-printable-convertor">https://www.webatic.com/quoted-printable-convertor</a></p>
+<h3 id="Rabbit"><a href="#Rabbit" class="headerlink" title="Rabbit"></a>Rabbit</h3><p>題目給的密文是</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">U2FsdGVkX1/+ydnDPowGbjjJXhZxm2MP2AgI</span><br></pre></td></tr></table></figure>
+
+<p>先查詢Rabbit密碼是什麼東西，網路上的資訊如下。</p>
+<blockquote>
+<p>Rabbit流密碼是由Cryptico公司（<a target="_blank" rel="noopener" href="http://www.cryptico.com/">http://www.cryptico.com</a> ）設計的，金鑰長度128位，<br>最大加密訊息長度為264 Bytes，即16 TB，若訊息超過該長度，則需要更換金鑰對剩下的訊息進行處理。它是目前安全性較高，加&#x2F;解密速度比較高效的流密碼之一，在各種處理器平臺上都有不凡的表現。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://tools.jb51.net/password/rabbit_encode">http://tools.jb51.net/password/rabbit_encode</a></p>
+<p>使用此網站進行解碼即可取得flag。</p>
+<h3 id="籬笆牆的影子"><a href="#籬笆牆的影子" class="headerlink" title="籬笆牆的影子"></a>籬笆牆的影子</h3><p>題目給的密文是</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">felhaagv&#123;ewtehtehfilnakgw&#125;</span><br></pre></td></tr></table></figure>
+
+<p>題目給出的題示是 :<br>星星還是那顆星星喲<br>月亮還是那個月亮<br>山也還是那座山喲<br>梁也還是那道梁<br>碾子是碾子缸是缸喲<br>爹是爹來娘是娘<br>麻油燈呵還吱吱響<br>點的還是那麼丁點亮<br>哦哦</p>
+<p>完全…看不懂，查詢之後發現是歌詞。</p>
+<p>哭阿，方向完全錯了，這是柵欄密碼。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">felhaagv&#123;ewtehtehfilnakgw&#125;</span><br><span class="line">f l a g &#123; w e t h i n k w</span><br><span class="line"> e h a v e t h e f l a g &#125;</span><br></pre></td></tr></table></figure>
+
+<p>於是可以用這種簡單的方法解出flag{wethinkwehavetheflag}</p>
+<p>爛死了。</p>
+<h3 id="丟失的MD5"><a href="#丟失的MD5" class="headerlink" title="丟失的MD5"></a>丟失的MD5</h3><p>題目給出一個py檔。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib   </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">32</span>,<span class="number">127</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">32</span>,<span class="number">127</span>):</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">32</span>,<span class="number">127</span>):</span><br><span class="line">            m=hashlib.md5()</span><br><span class="line">            m.update(<span class="string">&#x27;TASC&#x27;</span>+<span class="built_in">chr</span>(i)+<span class="string">&#x27;O3RJMV&#x27;</span>+<span class="built_in">chr</span>(j)+<span class="string">&#x27;WDJKX&#x27;</span>+<span class="built_in">chr</span>(k)+<span class="string">&#x27;ZM&#x27;</span>)</span><br><span class="line">            des=m.hexdigest()</span><br><span class="line">            <span class="keyword">if</span> <span class="string">&#x27;e9032&#x27;</span> <span class="keyword">in</span> des <span class="keyword">and</span> <span class="string">&#x27;da&#x27;</span> <span class="keyword">in</span> des <span class="keyword">and</span> <span class="string">&#x27;911513&#x27;</span> <span class="keyword">in</span> des:</span><br><span class="line">                <span class="built_in">print</span>(des)</span><br></pre></td></tr></table></figure>
+
+<p>嘗試運行後發現被提示需要編碼，修正後讓他可以運行。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib   </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">32</span>,<span class="number">127</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">32</span>,<span class="number">127</span>):</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">32</span>,<span class="number">127</span>):</span><br><span class="line">            m=hashlib.md5()</span><br><span class="line">            m.update(<span class="built_in">str</span>(<span class="string">&#x27;TASC&#x27;</span>+<span class="built_in">chr</span>(i)+<span class="string">&#x27;O3RJMV&#x27;</span>+<span class="built_in">chr</span>(j)+<span class="string">&#x27;WDJKX&#x27;</span>+<span class="built_in">chr</span>(k)+<span class="string">&#x27;ZM&#x27;</span>).encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">            des=m.hexdigest()</span><br><span class="line">            <span class="keyword">if</span> <span class="string">&#x27;e9032&#x27;</span> <span class="keyword">in</span> des <span class="keyword">and</span> <span class="string">&#x27;da&#x27;</span> <span class="keyword">in</span> des <span class="keyword">and</span> <span class="string">&#x27;911513&#x27;</span> <span class="keyword">in</span> des:</span><br><span class="line">                <span class="built_in">print</span>(des)</span><br></pre></td></tr></table></figure>
+
+<p>執行後獲得</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">e9032994dabac08080091151380478a2</span><br></pre></td></tr></table></figure>
+
+<p>感覺是hex(十六進位)，但丟進去decoder成ascii和base64都不太對的感覺。<br>然後發現自己是笨蛋，題目就說他是MD5，啊我怎麼沒感覺。</p>
+<p>最後發現這就是答案了，哭阿哭阿，我是笨蛋。</p>
+<h3 id="RSA"><a href="#RSA" class="headerlink" title="RSA"></a>RSA</h3><p>p&#x3D;473398607161，q&#x3D;4511491，e&#x3D;17，求解 d</p>
+<p>使用公式解就可以了</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line">p =gmpy2.mpz(<span class="number">473398607161</span>)</span><br><span class="line">q =gmpy2.mpz(<span class="number">4511491</span>)</span><br><span class="line">e =gmpy2.mpz(<span class="number">17</span>)</span><br><span class="line">phi_n= (p - <span class="number">1</span>) * (q - <span class="number">1</span>)</span><br><span class="line">d = gmpy2.invert(e, phi_n)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;d is:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span> (d)</span><br></pre></td></tr></table></figure>
+
+<p>拿到flag</p>
+<h3 id="Alice與Bob"><a href="#Alice與Bob" class="headerlink" title="Alice與Bob"></a>Alice與Bob</h3><p>密碼學歷史中，有兩位知名的傑出人物，Alice和Bob。他們的愛情經過置換和輪加密也難以混淆，即使是沒有身份認證也可以知根知底。就像在數學王國中的素數一樣，孤傲又熱情。下面是一個大整數:98554799767,請分解為兩個素數，分解後，小的放前面，大的放後面，合成一個新的數字，進行md5的32位小寫哈希，提交答案。</p>
+<p>整數n小於256bit，可以透過本地工具爆破成功，直接打開RSATool2v17。</p>
+<p>不然也可以使用線上工具 <a target="_blank" rel="noopener" href="http://factordb.com/">http://factordb.com/</a> 查詢。</p>
+<p>爆破結果p &#x3D; 101999, q &#x3D; 966233</p>
+<p>以 101999966233 在 <a target="_blank" rel="noopener" href="http://www.hiencode.com/hash.html">http://www.hiencode.com/hash.html</a> 這類線上工具進行MD5的hash計算，得到flag。</p>
+<h3 id="rsarsa"><a href="#rsarsa" class="headerlink" title="rsarsa"></a>rsarsa</h3><p>題目:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Math is cool! Use the RSA algorithm to decode the secret message, c, p, q, and e are parameters for the RSA algorithm.</span><br><span class="line"></span><br><span class="line">p =  9648423029010515676590551740010426534945737639235739800643989352039852507298491399561035009163427050370107570733633350911691280297777160200625281665378483</span><br><span class="line">q =  11874843837980297032092405848653656852760910154543380907650040190704283358909208578251063047732443992230647903887510065547947313543299303261986053486569407</span><br><span class="line">e =  65537</span><br><span class="line">c =  83208298995174604174773590298203639360540024871256126892889661345742403314929861939100492666605647316646576486526217457006376842280869728581726746401583705899941768214138742259689334840735633553053887641847651173776251820293087212885670180367406807406765923638973161375817392737747832762751690104423869019034</span><br><span class="line"></span><br><span class="line">Use RSA to find the secret message</span><br></pre></td></tr></table></figure>
+<p>利用RSATool2v17計算出d</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">d = 56632047571190660567520341028861194862411428416862507034762587229995138605649836960220619903456392752115943299335385163216233744624623848874235303309636393446736347238627793022725260986466957974753004129210680401432377444984195145009801967391196615524488853620232925992387563270746297909112117451398527453977</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">p =  <span class="number">9648423029010515676590551740010426534945737639235739800643989352039852507298491399561035009163427050370107570733633350911691280297777160200625281665378483</span></span><br><span class="line">q =  <span class="number">11874843837980297032092405848653656852760910154543380907650040190704283358909208578251063047732443992230647903887510065547947313543299303261986053486569407</span></span><br><span class="line">c =  <span class="number">83208298995174604174773590298203639360540024871256126892889661345742403314929861939100492666605647316646576486526217457006376842280869728581726746401583705899941768214138742259689334840735633553053887641847651173776251820293087212885670180367406807406765923638973161375817392737747832762751690104423869019034</span></span><br><span class="line">d = <span class="number">56632047571190660567520341028861194862411428416862507034762587229995138605649836960220619903456392752115943299335385163216233744624623848874235303309636393446736347238627793022725260986466957974753004129210680401432377444984195145009801967391196615524488853620232925992387563270746297909112117451398527453977</span></span><br><span class="line">n = p * q</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">pow</span>(c, d, n))</span><br></pre></td></tr></table></figure>
+
+<p>得到flag。</p>
+<h3 id="大帝的密碼武器"><a href="#大帝的密碼武器" class="headerlink" title="大帝的密碼武器"></a>大帝的密碼武器</h3><p>看到大帝直覺又是凱薩密碼，</p>
+<p>用HxD打開，看到開頭兩個字是PK，應該是zip的標示，加上副檔名.zip之後解壓縮，得到題目。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">公元前一百年，在罗马出生了一位对世界影响巨大的人物，他生前是罗马三巨头之一。他率先使用了一种简单的加密函，因此这种加密方法以他的名字命名。</span><br><span class="line">以下密文被解开后可以获得一个有意义的单词：FRPHEVGL</span><br><span class="line">你可以用这个相同的加密向量加密附件中的密文，作为答案进行提交。</span><br></pre></td></tr></table></figure>
+
+<p>將FRPHEVGL跑25種ROT之後可以得到</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FRPHEVGL</span><br><span class="line">GSQIFWHM</span><br><span class="line">HTRJGXIN</span><br><span class="line">IUSKHYJO</span><br><span class="line">JVTLIZKP</span><br><span class="line">KWUMJALQ</span><br><span class="line">LXVNKBMR</span><br><span class="line">MYWOLCNS</span><br><span class="line">NZXPMDOT</span><br><span class="line">OAYQNEPU</span><br><span class="line">PBZROFQV</span><br><span class="line">QCASPGRW</span><br><span class="line">RDBTQHSX</span><br><span class="line">SECURITY</span><br><span class="line">TFDVSJUZ</span><br><span class="line">UGEWTKVA</span><br><span class="line">VHFXULWB</span><br><span class="line">WIGYVMXC</span><br><span class="line">XJHZWNYD</span><br><span class="line">YKIAXOZE</span><br><span class="line">ZLJBYPAF</span><br><span class="line">AMKCZQBG</span><br><span class="line">BNLDARCH</span><br><span class="line">COMEBSDI</span><br><span class="line">DPNFCTEJ</span><br></pre></td></tr></table></figure>
+
+<p>懶得看哪個是有意義的單詞，直接丟Google翻譯，得到單詞是SECURITY，順便確定只是簡單的ROT13。<br>然後沒找到要加密的密文在哪，後來發現SECURITY也不是密文 &#x3D; &#x3D;，查了一下發現大家還會拿到一個密文叫ComeChina，題目感覺出了問題，丟進ROT13，得到flag。</p>
+<h3 id="Windows系統密碼"><a href="#Windows系統密碼" class="headerlink" title="Windows系統密碼"></a>Windows系統密碼</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Administrator:500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::</span><br><span class="line">ctf:1002:06af9108f2e1fecf144e2e8adef09efd:a7fcb22a88038f35a8f39d503e7f0062:::</span><br><span class="line">Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::</span><br><span class="line">SUPPORT_388945a0:1001:aad3b435b51404eeaad3b435b51404ee:bef14eee40dffbc345eeb3f58e290d56:::</span><br></pre></td></tr></table></figure>
+
+<p>從 <a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/65256.html">https://www.secpulse.com/archives/65256.html</a> 此篇文章可以看出windows有兩種密碼處理方式，其中NT LAN Manager（NTLM）的格式跟題目給出的格式一樣。</p>
+<p>將06af9108f2e1fecf144e2e8adef09efd和a7fcb22a88038f35a8f39d503e7f0062分別丟入 <a target="_blank" rel="noopener" href="https://www.cmd5.com/">https://www.cmd5.com/</a> 後，後者可以得到有意義的flag。</p>
+<p>先寫到這裡，之後再慢慢更新。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="Afan Chen">Afan Chen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章連結: </span><span class="post-copyright-info"><a href="https://afan0918.github.io/ctf-crypto-buuctf-1/">https://afan0918.github.io/ctf-crypto-buuctf-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 許可協議。轉載請註明來自 <a href="https://afan0918.github.io" target="_blank">Afan's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://raw.githubusercontent.com/afan0918/afan0918.github.io/main/asset/eiko.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/gh/overtrue/share.js@master/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/linux-shell/"><img class="next-cover" src="https://raw.githubusercontent.com/afan0918/afan0918.github.io/main/asset/eiko.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">linux-shell的撰寫</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 評論</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/70462625?v=4" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Afan Chen</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/afan0918"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/afan0918" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#BUUCTF"><span class="toc-text">BUUCTF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MD5"><span class="toc-text">MD5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E7%9C%BC%E5%B0%B1%E8%A7%A3%E5%AF%86"><span class="toc-text">一眼就解密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Url%E7%B7%A8%E7%A2%BC"><span class="toc-text">Url編碼</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9C%8B%E6%88%91%E8%BF%B4%E6%97%8B%E8%B8%A2"><span class="toc-text">看我迴旋踢</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%91%A9%E7%B5%B2"><span class="toc-text">摩絲</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#password"><span class="toc-text">password</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%8A%E7%95%B0%E5%87%B1%E6%92%92"><span class="toc-text">變異凱撒</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Quoted-printable"><span class="toc-text">Quoted-printable</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Rabbit"><span class="toc-text">Rabbit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%AC%E7%AC%86%E7%89%86%E7%9A%84%E5%BD%B1%E5%AD%90"><span class="toc-text">籬笆牆的影子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%9F%E5%A4%B1%E7%9A%84MD5"><span class="toc-text">丟失的MD5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RSA"><span class="toc-text">RSA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Alice%E8%88%87Bob"><span class="toc-text">Alice與Bob</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rsarsa"><span class="toc-text">rsarsa</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%A7%E5%B8%9D%E7%9A%84%E5%AF%86%E7%A2%BC%E6%AD%A6%E5%99%A8"><span class="toc-text">大帝的密碼武器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows%E7%B3%BB%E7%B5%B1%E5%AF%86%E7%A2%BC"><span class="toc-text">Windows系統密碼</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/ctf-crypto-buuctf-1/" title="BUUCTF crypto 1"><img src="https://raw.githubusercontent.com/afan0918/afan0918.github.io/main/asset/eiko.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="BUUCTF crypto 1"/></a><div class="content"><a class="title" href="/ctf-crypto-buuctf-1/" title="BUUCTF crypto 1">BUUCTF crypto 1</a><time datetime="2022-05-24T00:45:48.000Z" title="發表於 2022-05-24 08:45:48">2022-05-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/linux-shell/" title="linux-shell的撰寫"><img src="https://raw.githubusercontent.com/afan0918/afan0918.github.io/main/asset/eiko.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="linux-shell的撰寫"/></a><div class="content"><a class="title" href="/linux-shell/" title="linux-shell的撰寫">linux-shell的撰寫</a><time datetime="2022-05-23T14:30:17.000Z" title="發表於 2022-05-23 22:30:17">2022-05-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/gpu-server-command/" title="gpu server 架好之後的一些常用指令"><img src="https://raw.githubusercontent.com/afan0918/afan0918.github.io/main/asset/eiko.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="gpu server 架好之後的一些常用指令"/></a><div class="content"><a class="title" href="/gpu-server-command/" title="gpu server 架好之後的一些常用指令">gpu server 架好之後的一些常用指令</a><time datetime="2022-05-22T00:26:40.000Z" title="發表於 2022-05-22 08:26:40">2022-05-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/set-hexo-theme/" title="hexo-theme-butterfly 常用語法"><img src="https://raw.githubusercontent.com/afan0918/afan0918.github.io/main/asset/eiko.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="hexo-theme-butterfly 常用語法"/></a><div class="content"><a class="title" href="/set-hexo-theme/" title="hexo-theme-butterfly 常用語法">hexo-theme-butterfly 常用語法</a><time datetime="2022-05-21T02:05:01.000Z" title="發表於 2022-05-21 10:05:01">2022-05-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/perceptron/" title="Java 單層感知機實作"><img src="https://cdn-icons-png.flaticon.com/512/919/919854.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 單層感知機實作"/></a><div class="content"><a class="title" href="/perceptron/" title="Java 單層感知機實作">Java 單層感知機實作</a><time datetime="2021-09-21T05:39:33.000Z" title="發表於 2021-09-21 13:39:33">2021-09-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By Afan Chen</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="簡繁轉換">簡</button><button id="darkmode" type="button" title="淺色和深色模式轉換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直達評論"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到頂部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜尋</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  資料庫載入中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜尋文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
