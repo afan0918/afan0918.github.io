@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>極限隨機樹 extra trees</title>
+      <link href="/extra-trees-regressor/"/>
+      <url>/extra-trees-regressor/</url>
+      
+        <content type="html"><![CDATA[<p>關於極限隨機樹(extra trees)的學習筆記。</p><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3><p>極限隨機樹跟隨機森林(random forest)一樣，都是由多個決策樹(decision tree)所組成，而算法決定他們之間的差異。</p><p>隨機森林由Bagging方法抽取隨機的子樣本，創造差異的子模型後實現集成學習，決策樹的分割藉由熵(Entropy)以及Gini不純度(Gini Impurity)來在隨機子集中找出最佳的分割。</p><p>而extra trees相較於random forest，差異展現在決策樹的分割上，extra trees直接使用整個數據集，抽一個隨機的特徵以及該隨機特徵上的隨機閾值進行分割。</p><p>extra trees中的每個決策樹的隨機性比起random forest會變得更大，這代表每個子模型的性能會大大的降低，不過集成的模型數量夠大，最終集成學習的結果也會不錯，這也是extra trees這種極度隨機的集成學習具有價值的理論依據。</p><p>extra trees的這種隨機性可以用來抑製過擬合，不會因為某幾個極端的樣本點而將整個模型帶偏。這是因為每棵決策樹都是極度隨機的，所以很有可能大部分決策樹是看不到這些特別極端的樣本點的，因此整個模型的過擬合現象會得到抑制。抑製過擬合過程中降低了方差，與此同時也會增大了偏差，因此在使用extra trees之前，需要檢查樣本數據以及要解決的問題是否適合使用extra trees。</p><h3 id="演算法"><a class="markdownIt-Anchor" href="#演算法"></a> 演算法</h3><p>by <a href="https://doi.org/10.1007/s10994-006-6226-1">原始論文</a></p><p><img src="1.png" alt="" /></p><h3 id="速度上的差異"><a class="markdownIt-Anchor" href="#速度上的差異"></a> 速度上的差異</h3><p>在大資料量的數據上，random forest的訓練速度會有難以抹滅的速度劣勢，若是抽出的子數據集有n筆資料，每筆資料有m個特徵，在第一次找尋分割點的時候，就需要做(n-1)*m次的運算。</p><p>而與之相對的是extra trees可以將建立一個決策樹的node的時間縮短到k次(k為整個數據集大小)，畢竟是透過隨機選擇，速度上快上很多。</p><p>透過<a href="https://quantdare.com/what-is-the-difference-between-extra-trees-and-random-forest/">此網站</a>，可以看到</p><p><img src="results.png" alt="" /></p><p>在訓練成效上相差無幾，但速度上快許多。</p><h3 id="結論"><a class="markdownIt-Anchor" href="#結論"></a> 結論</h3><ul><li>extra trees使用整個原始樣本而不是隨機子集，從而減少了偏差，但由於不是採用最佳分割，所以也會增加偏差。</li><li>隨機化的樹算法隨機選擇每個節點的分裂點，從而減少方差。</li><li>它比隨機森林算法快得多，因為它不花時間選擇最佳分割點。</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 機器學習 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>ctf-real-buuctf-1</title>
       <link href="/ctf-real-buuctf-1/"/>
       <url>/ctf-real-buuctf-1/</url>
